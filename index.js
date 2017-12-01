@@ -20,7 +20,7 @@ const container = new skygearCloud.CloudCodeContainer();
 container.apiKey = skygearCloud.settings.apiKey;
 container.endPoint = skygearCloud.settings.skygearEndpoint + '/';
 
-hook.afterMessageSent((context, message, conversation, participants) => {
+hook.afterMessageSent((message, conversation, participants, context) => {
   const title = conversation.title;
   const participantIds = participants.map((p) => p._id && p._id != context.userId);
   const currentUser = participants.find((p) => p._id == context.userId);
