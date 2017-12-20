@@ -37,7 +37,7 @@ hook.afterMessageSent((message, conversation, participants, context) => {
         fileMessage = "an image file"
       }
     }
-    body = currentUser.username + "sent you " + fileMessage + ".";
+    body = currentUser.username + " sent you " + fileMessage + ".";
   }
 
   const apnsPayload = {
