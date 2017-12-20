@@ -1,0 +1,11 @@
+{
+  "name": "cloud-chat-demo",
+  "version": "1.0.0",
+  "description": "Skygear Chat Push Notification Cloud Code Demo",
+  "main": "index.js",
+  "dependencies": {
+    "skygear-chat": "^1.2.0"
+  },
+  "author": "Ho Wa Wong",
+  "license": "Apache-2.0"
+}

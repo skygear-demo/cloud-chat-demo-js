@@ -28,8 +28,33 @@ hook.afterMessageSent((message, conversation, participants, context) => {
   if (message.body) {
     body = currentUser.username + ": " + message.body;
   } else {
-    body = currentUser.username + ":" + "sent you a file.";
+    let fileMessage = "a file";
+    if (message.attachment) {
+      if (message.attachment.contentType.startsWith("audio/")) {
+        fileMessage = "an audio file";
+      }
+      if (message.attachment.contentType.startsWith("image/")) {
+        fileMessage = "an image file"
+      }
+    }
+    body = currentUser.username + " sent you " + fileMessage + ".";
   }
-  const payload = {'gcm': {'notification': {'title': title, 'body': body}}}
+
+  const apnsPayload = {
+    'aps': {
+      'alert':
+        {'title':title,
+         'body': body}
+      },
+    'from': 'skygear',
+    'operation': 'notification'
+  };
+  const gcmPayload = {
+    'notification': {
+      'title': title,
+      'body': body
+    }
+  }
+  const payload = {'gcm': gcmPayload, 'apns': apnsPayload};
   container.push.sendToUser(participantIds, payload);
 });
