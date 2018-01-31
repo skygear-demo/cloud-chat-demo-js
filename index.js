@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-const hook = require('skygear-chat/hook');
+const skygearChatCloud = require('skygear-chat/dist/cloud');
 const skygearCloud = require('skygear/cloud');
 const container = new skygearCloud.CloudCodeContainer();
+
 container.apiKey = skygearCloud.settings.apiKey;
 container.endPoint = skygearCloud.settings.skygearEndpoint + '/';
 
-hook.afterMessageSent((message, conversation, participants, context) => {
+skygearChatCloud.afterMessageSent((message, conversation, participants, context) => {
   const title = conversation.title;
-  const participantIds = participants.map((p) => p._id && p._id != context.userId);
+  const otherUserIds = participants.map((p) => p._id && p._id != context.userId);
   const currentUser = participants.find((p) => p._id == context.userId);
   let body = '';
   if (message.body) {
@@ -55,6 +56,6 @@ hook.afterMessageSent((message, conversation, participants, context) => {
       'body': body
     }
   }
-  const payload = {'gcm': gcmPayload, 'apns': apnsPayload};
-  container.push.sendToUser(participantIds, payload);
+  const notification = {'gcm': gcmPayload, 'apns': apnsPayload};
+  container.push.sendToUser(otherUserIds, notification);
 });
