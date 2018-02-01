@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const skygearChatCloud = require('skygear-chat/dist/cloud');
+const skygearChatCloud = require('skygear-chat/cloud');
 const skygearCloud = require('skygear/cloud');
 const container = new skygearCloud.CloudCodeContainer();
 
