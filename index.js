@@ -23,8 +23,8 @@ container.endPoint = skygearCloud.settings.skygearEndpoint + '/';
 
 skygearChatCloud.afterMessageSent((message, conversation, participants, context) => {
   const title = conversation.title;
-  const otherUserIds = participants.map((p) => p._id && p._id != context.userId);
-  const currentUser = participants.find((p) => p._id == context.userId);
+  const otherUserIds = participants.filter(p => p._id && p._id != context.userId).map(p => p._id);
+  const currentUser = participants.find(p => p._id == context.userId);
   let body = '';
   if (message.body) {
     body = currentUser.username + ": " + message.body;
@@ -56,6 +56,6 @@ skygearChatCloud.afterMessageSent((message, conversation, participants, context)
       'body': body
     }
   }
-  const notification = {'gcm': gcmPayload, 'apns': apnsPayload};
-  container.push.sendToUser(otherUserIds, notification);
+  const payload = {'gcm': gcmPayload, 'apns': apnsPayload};
+  container.push.sendToUser(otherUserIds, payload);
 });
